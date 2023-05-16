@@ -6,36 +6,40 @@ import axios from 'axios';
 import { useState } from 'react';
 
 export default function Home() {
-  const [dataHome, setDataHomeValue] = useState(0);
+  const dataHome = [
+    {
+      title: 'Andre',
+      description: 'Teste',
+      link: 'http://teste.com.br'
+    }
+  ];
 
-  function LoadEstates()
-  {
+  function LoadEstates() {
     axios.get('https://fontouradesenvolvimento.com.br/site/api/state')
-    .then(function (response) {
-      console.log(response);
-      setDataHomeValue(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .finally(function () {
-      // always executed
-    });
+      .then(function (response) {
+        console.log(response);
+        setDataHomeValue(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
+        // always executed
+      });
   }
-  
-  function CadrBody()
-      {
-        return (
-          dataHome.map(info => 
-            <MyCard
-              link={info.link}
-              title={info.title}
-              description={info.description}
-            >
-            </MyCard>
-          )
-        )
-      }
+
+  function CardBody() {
+    return (
+      dataHome.map(info =>
+        <MyCard
+          link={info.link}
+          title={info.title}
+          description={info.description}
+        >
+        </MyCard>
+      )
+    )
+  }
 
   return (
     <main className={styles.main}>
@@ -63,7 +67,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.center} onClick={LoadEstates}>
+      <div className={styles.center}>
         <Image
           className={styles.logo}
           src="/next.svg"
@@ -75,7 +79,7 @@ export default function Home() {
       </div>
 
       <div className={styles.grid}>
-        <CadrBody></CadrBody>
+        <CardBody></CardBody>
       </div>
     </main>
   )
