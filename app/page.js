@@ -1,7 +1,42 @@
+'use client';
 import Image from 'next/image'
 import styles from './page.module.css'
+import MyCard from './components/myCard';
+import axios from 'axios';
+import { useState } from 'react';
 
 export default function Home() {
+  const [dataHome, setDataHomeValue] = useState(0);
+
+  function LoadEstates()
+  {
+    axios.get('https://fontouradesenvolvimento.com.br/site/api/state')
+    .then(function (response) {
+      console.log(response);
+      setDataHomeValue(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+    .finally(function () {
+      // always executed
+    });
+  }
+  
+  function CadrBody()
+      {
+        return (
+          dataHome.map(info => 
+            <MyCard
+              link={info.link}
+              title={info.title}
+              description={info.description}
+            >
+            </MyCard>
+          )
+        )
+      }
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -28,7 +63,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className={styles.center}>
+      <div className={styles.center} onClick={LoadEstates}>
         <Image
           className={styles.logo}
           src="/next.svg"
@@ -40,55 +75,7 @@ export default function Home() {
       </div>
 
       <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <CadrBody></CadrBody>
       </div>
     </main>
   )
