@@ -14,11 +14,13 @@ export default function Home() {
     }
   ];
 
+  const [states, setStates] = useState('');
+
   function LoadEstates() {
     axios.get('https://fontouradesenvolvimento.com.br/site/api/state')
       .then(function (response) {
-        console.log(response);
-        setDataHomeValue(response.data);
+        console.log(response.data);
+        setStates(response.data);
       })
       .catch(function (error) {
         console.log(error);
@@ -30,11 +32,11 @@ export default function Home() {
 
   function CardBody() {
     return (
-      dataHome.map(info =>
+      states.map(state =>
         <MyCard
-          link={info.link}
-          title={info.title}
-          description={info.description}
+          link={state.id}
+          title={state.name}
+          description={state.short}
         >
         </MyCard>
       )
@@ -78,6 +80,8 @@ export default function Home() {
         />
       </div>
 
+      <LoadEstates></LoadEstates>
+      
       <div className={styles.grid}>
         <CardBody></CardBody>
       </div>
