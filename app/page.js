@@ -3,9 +3,10 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import MyCard from './components/myCard';
 import axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
+  
   const dataHome = [
     {
       title: 'Andre',
@@ -14,33 +15,33 @@ export default function Home() {
     }
   ];
 
-  const [states, setStates] = useState('');
+  const [states, setStates] = useState(null);
 
-  function LoadEstates() {
+  useEffect(() => {
     axios.get('https://fontouradesenvolvimento.com.br/site/api/state')
-      .then(function (response) {
-        console.log(response.data);
-        setStates(response.data);
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .finally(function () {
-        // always executed
-      });
-  }
-
+    .then(function (response) {
+      console.log(response.data);
+      setStates(response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
+    })
+  }, []);
+    
   function CardBody() {
-    return (
-      states.map(state =>
-        <MyCard
-          link={state.id}
-          title={state.name}
-          description={state.short}
-        >
-        </MyCard>
+
+    if (states !== null) {
+      return (
+        states.map(state =>
+          <MyCard
+            link={state.id}
+            title={state.name}
+            description={state.short}
+          >
+          </MyCard>
+        )
       )
-    )
+    }
   }
 
   return (
@@ -79,8 +80,6 @@ export default function Home() {
           priority
         />
       </div>
-
-      <LoadEstates></LoadEstates>
       
       <div className={styles.grid}>
         <CardBody></CardBody>

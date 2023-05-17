@@ -4,10 +4,8 @@ export default function MyCard(props)
 {
     return (
         <a
-            href={props.link}
+            href="/cities"
             className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
             >
             <h2>
                 {props.title} <span>-&gt;</span>
