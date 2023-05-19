@@ -1,10 +1,10 @@
-import styles from '../page.module.css'
+import styles from '@/app/page.module.css'
 
 export default function MyCard(props)
 {
     return (
         <a
-            href="/cities"
+            href={"/cities?stateId=" + props.link}
             className={styles.card}
             >
             <h2>

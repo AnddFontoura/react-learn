@@ -1,42 +1,32 @@
 'use client';
 import Image from 'next/image'
-import styles from './page.module.css'
-import MyCard from '../components/myCard';
+import styles from '@/app/page.module.css'
+import MyCard from '@/components/myCard';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-export default function Home() {
-  
-  const dataHome = [
-    {
-      title: 'Andre',
-      description: 'Teste',
-      link: 'http://teste.com.br'
-    }
-  ];
-
-  const [states, setStates] = useState(null);
+export default function Cities() {
+  const [cities, setCities] = useState(null);
 
   useEffect(() => {
-    axios.get('https://fontouradesenvolvimento.com.br/site/api/state')
+    let urlSearch = new URLSearchParams(window.location.search);
+    let stateId = urlSearch
+
+    axios.get('https://fontouradesenvolvimento.com.br/site/api/city?stateId=' + stateId)
     .then(function (response) {
-      console.log(response.data);
-      setStates(response.data);
-    })
-    .catch(function (error) {
-      console.log(error);
+      setCities(response.data);
     })
   }, []);
     
   function CardBody() {
 
-    if (states !== null) {
+    if (cities !== null) {
       return (
-        states.map(state =>
+        cities.map(city =>
           <MyCard
-            link={state.id}
-            title={state.name}
-            description={state.short}
+            link={city.id}
+            title={city.name}
+            description={city.short}
           >
           </MyCard>
         )
